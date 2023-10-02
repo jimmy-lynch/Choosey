@@ -1,0 +1,44 @@
+{
+  "tests": [
+    {
+      "name": "Networking Tutorial Exists",
+      "setup": "",
+      "run": "find tutorials/NetworkingTutorial/",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": null
+    },
+    {
+      "name": "Location Tutorial Exists",
+      "setup": "",
+      "run": "find tutorials/LocationTutorial/",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": null
+    },
+    {
+      "name": "Stage 0 Video Exists",
+      "setup": "",
+      "run": "find screenshots/choosey-stage-0.*",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": null
+    },
+    {
+      "name": "Stage 1 Video Exists",
+      "setup": "",
+      "run": "find screenshots/choosey-stage-1.*",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": null
+    }
+  ]
+}
