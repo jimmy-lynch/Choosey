@@ -13,7 +13,7 @@ struct RequestLocationView: View {
     var body: some View {
         
         ZStack {
-            Color(.black)
+            Color(.systemBackground)
                 .ignoresSafeArea()
             VStack(alignment: .center, spacing: 12) {
                 Image(systemName: "location.circle.fill")
@@ -21,7 +21,8 @@ struct RequestLocationView: View {
                     .frame(width: 50, height: 50)
                     .foregroundColor(Color(.systemBlue))
                 Text("We will use your location to display restaurants near you.")
-                    .foregroundColor(Color.white)
+                    .foregroundColor(Color(.systemBlue))
+                    .bold()
                     .multilineTextAlignment(.center)
                 Button {
                     locationManager.requestLocationAccess()
