@@ -17,6 +17,7 @@ struct ContentView: View {
             RequestLocationView(locationManager: locationManager)
         }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
