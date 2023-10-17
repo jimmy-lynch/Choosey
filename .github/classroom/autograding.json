@@ -39,6 +39,16 @@
       "comparison": "exact",
       "timeout": 10,
       "points": null
+    },
+    {
+      "name": "Stage 2 Video",
+      "setup": "",
+      "run": "find screenshots/choosey-stage-2.*",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": null
     }
   ]
 }
