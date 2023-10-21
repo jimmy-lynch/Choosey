@@ -16,7 +16,7 @@ struct SearchService {
         return decoder
     }
     
-    public static func findBusinesses(latitude: Double, longitude: Double, radius: Int, searchTerm: String) async throws -> [Business] {
+    public static func findBusinesses(latitude: Double, longitude: Double, radius: Int, searchTerm: String, price: Int?, sort: String) async throws -> [Business] {
         let radiusMiles = Measurement(value: Double(radius), unit: UnitLength.miles)
         let radiusMeters = radiusMiles.converted(to: UnitLength.meters)
         
@@ -27,8 +27,14 @@ struct SearchService {
             URLQueryItem(name: "latitude", value:"\(latitude)"),
             URLQueryItem(name: "longitude", value:"\(longitude)"),
             URLQueryItem(name: "term", value:"\(searchTerm)"),
-            URLQueryItem(name: "radius", value:"\(Int(radiusMeters.value))")
+            URLQueryItem(name: "radius", value:"\(Int(radiusMeters.value))"),
+            URLQueryItem(name: "sort_by", value:"\(sort)")
+            
         ]
+        
+        if let p = price {
+            urlRaw?.queryItems?.append(URLQueryItem(name: "price", value:"\(p)"))
+        }
         
         guard let url = urlRaw?.url else { fatalError("Invalid URL") }
         
@@ -53,4 +59,31 @@ struct SearchService {
         let string = String(data: data, encoding: .utf8)!
         print(string)
     }
+}
+
+extension SearchService {
+    struct PriceOption {
+        let title: String
+        let value: Int?
+    }
+    
+    struct SortOption {
+        let title: String
+        let value: String
+    }
+    
+    public static let priceOptions: [PriceOption] = [
+        .init(title: "Any", value: nil),
+        .init(title: "$", value: 1),
+        .init(title: "$$", value: 2),
+        .init(title: "$$$", value: 3),
+        .init(title: "$$$$", value: 4)
+    ]
+    
+    public static let sortOptions: [SortOption] = [
+        .init(title: "Best match", value: "best_match"),
+        .init(title: "Rating", value: "rating"),
+        .init(title: "Review Count", value: "review_count"),
+        .init(title: "Distance", value: "distance")
+    ]
 }

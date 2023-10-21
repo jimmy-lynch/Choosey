@@ -13,6 +13,8 @@ struct SearchView: View {
     @ObservedObject var locationManager: LocationManager
     @State private var search: String = ""
     @State private var distance: Int = 1
+    @State private var price: Int? = 1
+    @State private var sort: String = "best_match"
     
     var body: some View {
         NavigationStack {
@@ -28,57 +30,113 @@ struct SearchView: View {
                             vm.radius -= 1
                         }
                     }
+                    Picker("Price", selection: $vm.price) {
+                        ForEach(SearchService.priceOptions, id:\.value) { p in
+                            Text(p.title).tag(p.value)
+                        }
+                    }
+                    
+                    Picker("Sort By", selection: $vm.sort) {
+                        ForEach(SearchService.sortOptions, id:\.value) { s in
+                            Text(s.title).tag(s.value)
+                        }
+                    }
+                    
                     Button {
-                        locationManager.fetchCurrentLocation()
+                        findCurrentLocation()
                     } label: {
                         Text("Find Restaurants Near Me")
                             .foregroundColor(Color.blue)
                     }
                 }
                 Section {
-                    List(vm.businesses, id: \.id) { i in
-                        HStack(alignment: .center) {
-                            VStack(alignment: .leading) {
-                                Text("\(i.name)")
-                                    .foregroundColor(.primary)
-                                    .lineLimit(1)
-                                HStack(alignment: .center) {
-                                    Image(systemName: "star.fill")
-                                        .font(.caption)
-                                        .foregroundColor(Color.orange)
-                                    Text("\(i.rating)")
-                                        .font(.caption)
-                                        .foregroundColor(Color.orange)
-
-                                    Text("\(i.reviewCount)")
-                                        .font(.caption)
-                                        .foregroundColor(Color.gray)
-
-                                }
-                            }
-                            Spacer()
-                            Text("\(Double(round(i.distance*10) / 10.0))")
-                                .font(.caption)
-                                .foregroundColor(Color.gray)
-                        }
-                        .padding(.top, 5)
-                        
+                    switch vm.state {
+                        case .idle:
+                            idleView
+                        case .searching:
+                            searchingView
+                        case let .error(error):
+                            errorView(error)
+                        case let .success(businesses):
+                            businessList(businesses)
                     }
                 }
                 
             }
             .navigationTitle("Choosey!")
-        }
-        .task(id: locationManager.userLocation) {
-            if let location = locationManager.userLocation {
-                await loadData(currLocation: location)
-
+            .task(id: locationManager.userLocation) {
+                if let location = locationManager.userLocation {
+                    await loadData(currLocation: location)
+                }
             }
         }
     }
     
+    func findCurrentLocation() {
+        // TODO: Change vm.state
+        vm.state = .searching
+        locationManager.fetchCurrentLocation()
+    }
     
-        
+    @ViewBuilder
+    private var idleView: some View {
+        Text("Results will load here...")
+            .font(.subheadline)
+        //ideally should have nothing, but need one?
+    }
+    
+    @ViewBuilder
+    private var searchingView: some View {
+        // TODO: Search View
+        Text("Searching...")
+            .font(.subheadline)
+    }
+    
+    @ViewBuilder
+    private func businessList(_ businesses: [Business]) -> some View {
+        List(businesses, id: \.id) { i in
+            HStack(alignment: .center) {
+                VStack(alignment: .leading) {
+                    Text("\(i.name)")
+                        .foregroundColor(.primary)
+                        .lineLimit(1)
+                    HStack(alignment: .center) {
+                        Image(systemName: "star.fill")
+                            .font(.caption)
+                            .foregroundColor(Color.orange)
+                        Text("\(String(format: "%.2f", i.rating))")
+                            .font(.caption)
+                            .foregroundColor(Color.orange)
+
+                        Text("(\(i.reviewCount))")
+                            .font(.caption)
+                            .foregroundColor(Color.gray)
+                    }
+                }
+                Spacer()
+                VStack {
+                    Text("\(String(format: "%.0f", i.rating))m")
+                        .font(.caption)
+                        .foregroundColor(Color.gray)
+                    if let pr = i.price {
+                        Text("\(pr)")
+                            .font(.caption)
+                            .foregroundColor(Color.gray)
+                    }
+                    
+                }
+                
+            }
+            .padding(.top, 5)
+            
+        }
+    }
+    
+    @ViewBuilder
+    private func errorView(_ error: Error) -> some View {
+        //TODO: Error View
+        Text("Error")
+    }
     
     @Sendable func loadData(currLocation: CLLocation?) async {
         if let currLocation = currLocation {

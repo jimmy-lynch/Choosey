@@ -22,6 +22,7 @@ struct Business: Codable, Identifiable {
     var categories: [Category]
     var rating: Double
     var coordinates: Coordinates
+    var price: String?
     var displayPhone: String
     var hours: Hours?
     var distance: Double
