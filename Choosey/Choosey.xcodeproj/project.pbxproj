@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C7142BC52AE5AA5E00EE4A01 /* SearchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7142BC42AE5AA5E00EE4A01 /* SearchLocation.swift */; };
+		C7142BC82AE5AA8600EE4A01 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7142BC72AE5AA8600EE4A01 /* LocationSearchViewModel.swift */; };
+		C7142BCA2AE5AA9200EE4A01 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7142BC92AE5AA9200EE4A01 /* LocationSearchView.swift */; };
 		C7715DFA2AC65F1400738A5D /* ChooseyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7715DF92AC65F1400738A5D /* ChooseyApp.swift */; };
 		C7715DFC2AC65F1400738A5D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7715DFB2AC65F1400738A5D /* ContentView.swift */; };
 		C7715DFE2AC65F1700738A5D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7715DFD2AC65F1700738A5D /* Assets.xcassets */; };
@@ -20,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C7142BC42AE5AA5E00EE4A01 /* SearchLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocation.swift; sourceTree = "<group>"; };
+		C7142BC72AE5AA8600EE4A01 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
+		C7142BC92AE5AA9200EE4A01 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		C7715DF62AC65F1400738A5D /* Choosey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Choosey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7715DF92AC65F1400738A5D /* ChooseyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseyApp.swift; sourceTree = "<group>"; };
 		C7715DFB2AC65F1400738A5D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C7142BC62AE5AA7300EE4A01 /* Location Serach */ = {
+			isa = PBXGroup;
+			children = (
+				C7142BC72AE5AA8600EE4A01 /* LocationSearchViewModel.swift */,
+				C7142BC92AE5AA9200EE4A01 /* LocationSearchView.swift */,
+			);
+			path = "Location Serach";
+			sourceTree = "<group>";
+		};
 		C7715DED2AC65F1400738A5D = {
 			isa = PBXGroup;
 			children = (
@@ -66,6 +81,7 @@
 			children = (
 				C7715DF92AC65F1400738A5D /* ChooseyApp.swift */,
 				C7715DFB2AC65F1400738A5D /* ContentView.swift */,
+				C7142BC62AE5AA7300EE4A01 /* Location Serach */,
 				C7715E0E2AC65F9300738A5D /* Search */,
 				C7715E0B2AC65F7A00738A5D /* Request Location */,
 				C7715E082AC65F1F00738A5D /* Shared */,
@@ -89,6 +105,7 @@
 			children = (
 				C7715E092AC65F3900738A5D /* LocationManager.swift */,
 				C7B0ED432ACF14E0007771B5 /* YelpResponse.swift */,
+				C7142BC42AE5AA5E00EE4A01 /* SearchLocation.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -182,7 +199,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7715DFC2AC65F1400738A5D /* ContentView.swift in Sources */,
+				C7142BC52AE5AA5E00EE4A01 /* SearchLocation.swift in Sources */,
 				C7715E102AC65FAA00738A5D /* SearchViewModel.swift in Sources */,
+				C7142BC82AE5AA8600EE4A01 /* LocationSearchViewModel.swift in Sources */,
+				C7142BCA2AE5AA9200EE4A01 /* LocationSearchView.swift in Sources */,
 				C7715E0D2AC65F8B00738A5D /* RequestLocationView.swift in Sources */,
 				C7715DFA2AC65F1400738A5D /* ChooseyApp.swift in Sources */,
 				C7B0ED442ACF14E0007771B5 /* YelpResponse.swift in Sources */,

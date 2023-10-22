@@ -21,10 +21,25 @@ struct SearchView: View {
             Form {
                 Section {
                     TextField("Search", text: $vm.searchTerm)
+                    NavigationLink {
+                        LocationSearchView(searchLocation: $vm.searchLocation)
+                    } label: {
+                        switch vm.searchLocation {
+                            case .current:
+                                Text("Current Location")
+                            case let .other(location):
+                                Text("\(location.name)")
+                        }
+                    }
+                }
+                
+                Section {
                     Stepper {
                         Text("Within \(vm.radius) miles")
                     } onIncrement: {
-                        vm.radius += 1;
+                        if (vm.radius < 24) {
+                            vm.radius += 1
+                        }
                     } onDecrement: {
                         if (vm.radius > 1) {
                             vm.radius -= 1
@@ -41,14 +56,28 @@ struct SearchView: View {
                             Text(s.title).tag(s.value)
                         }
                     }
-                    
+                }
+                
+                Section {
                     Button {
-                        findCurrentLocation()
+                        switch vm.searchLocation {
+                            case .current:
+                                findCurrentLocation()
+                            
+                            case let .other(location):
+                                let latitude = location.latitude
+                                let longitude = location.longitude
+                                let _ = Task {
+                                    await vm.searchBusinesses(latitude: latitude, longitude: longitude)
+                                }
+                        }
+                            
                     } label: {
-                        Text("Find Restaurants Near Me")
+                        Text("Find Restaurants")
                             .foregroundColor(Color.blue)
                     }
                 }
+                
                 Section {
                     switch vm.state {
                         case .idle:
@@ -73,7 +102,6 @@ struct SearchView: View {
     }
     
     func findCurrentLocation() {
-        // TODO: Change vm.state
         vm.state = .searching
         locationManager.fetchCurrentLocation()
     }
@@ -112,10 +140,14 @@ struct SearchView: View {
                             .font(.caption)
                             .foregroundColor(Color.gray)
                     }
+                    let addy = i.location?.displayAddress.joined(separator: ", ") ?? ""
+                    Text("\(addy)")
+                        .font(.caption)
+                        .foregroundColor(Color.gray)
                 }
                 Spacer()
-                VStack {
-                    Text("\(String(format: "%.0f", i.rating))m")
+                VStack(alignment: .trailing) {
+                    Text("\(String(format: "%.2f", i.distance)) mi")
                         .font(.caption)
                         .foregroundColor(Color.gray)
                     if let pr = i.price {

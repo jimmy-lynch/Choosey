@@ -19,6 +19,7 @@ struct Business: Codable, Identifiable {
     var imageUrl: String
     var isClosed: Bool
     var reviewCount: Int
+    var location: Location?
     var categories: [Category]
     var rating: Double
     var coordinates: Coordinates
@@ -50,5 +51,17 @@ struct OpenHour: Codable {
 
 struct Region: Codable {
     var center: Coordinates
+}
+
+struct Location: Codable {
+    var address1: String
+    var address2: String?
+    var address3: String?
+    var city: String
+    var zipCode: String
+    var country: String
+    var state: String
+    var displayAddress: [String]
+    var crossStreets: String?
 }
 

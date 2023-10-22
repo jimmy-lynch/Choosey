@@ -22,14 +22,21 @@ class SearchViewModel: ObservableObject {
     @Published var sort: String = "best_match"
     
     @Published var state: SearchLoadingState = .idle
+    @Published var searchLocation: SearchLocationType = .current
     
     func searchBusinesses(latitude: Double, longitude: Double) async {
         do {
             state = .searching
-            //TODO: Call searchServices search method
             let search = try await SearchService.findBusinesses(latitude: latitude, longitude: longitude, radius: radius, searchTerm: searchTerm, price: price, sort: sort)
-            //TODO: ASSIGN RESULT TO CORECT PROPERTY
-            state = .success(businesses: search)
+
+            let convertedBusinesses = search.map { b in
+                var newBusiness = b
+                let distanceMeters = Measurement(value: b.distance, unit: UnitLength.meters)
+                let distanceMiles = distanceMeters.converted(to: UnitLength.miles)
+                newBusiness.distance = Double(distanceMiles.value)
+                return newBusiness
+            }
+            state = .success(businesses: convertedBusinesses)
         } catch {
             state = .error(error: error)
             print("Error: \(error)")
